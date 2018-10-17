@@ -30,8 +30,7 @@ Sort Algorithm Compare: Insertion Sort, Shell Sort, Quick Sort, Merge Sort and R
 
 五种算法的特性如下表所示。
 
- 
- 
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/sortfeature.png)
  
 
 ### 4. 算法实现
@@ -52,6 +51,8 @@ Sort Algorithm Compare: Insertion Sort, Shell Sort, Quick Sort, Merge Sort and R
 #### 4.3  Shell Sort实现
 希尔排序实现时选取不同步长序列，其算法效率也不同，如表所示【2】。
 
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/shellsort.png)
+
  
 本实验中选取四种比较有代表性的步长序列进行算法性能比较。
 
@@ -71,8 +72,7 @@ Sort Algorithm Compare: Insertion Sort, Shell Sort, Quick Sort, Merge Sort and R
 
 ### 5. 实验过程
 ### 5.1  数据采集
-因为实现时采用的time(&t)作为种子，每次生成的随机数都是不用的。所以在取r值和排序的耗时数据之前，对于每一个数量级，都先生成对应数量级的随机数写入到文件中，如图所示，目的是在每次排序后可以从文件中读取并恢复数组的初始状态，以保证初始条件的一致性。
- 
+因为实现时采用的time(&t)作为种子，每次生成的随机数都是不用的。所以在取r值和排序的耗时数据之前，对于每一个数量级，都先生成对应数量级的随机数写入到文件中，目的是在每次排序后可以从文件中读取并恢复数组的初始状态，以保证初始条件的一致性。
 
 每次针对一个数量级进行测试，生成数据后存入excle表格。
 ### 5.2  最终可执行程序
@@ -80,18 +80,23 @@ Sort Algorithm Compare: Insertion Sort, Shell Sort, Quick Sort, Merge Sort and R
 （1） 最终可执行程序在调用每个排序算法前，随机数集都是新生成的；
 （2） 最终可执行程序没有文件读写操作。
 最终实现效果如图所示。
+
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/result.png)
  
 
 ### 6. 实验结果及分析
 ### 6.1  Radix Sort算法r值分析
-取 ，分别测试其在不同输入规模下计数排序的耗时，计算平均数据整理如表7 1所示。表中同一输入数量级下使用的数据样本相同，每个r值对应的耗时值均是三次实验数据的平均值（见附件数据分析.xlsx），单位为us，具有较高的准确性与可对比性。
+取 ，分别测试其在不同输入规模下计数排序的耗时，计算平均数据整理如表所示。表中同一输入数量级下使用的数据样本相同，每个r值对应的耗时值均是三次实验数据的平均值（见附件数据分析.xlsx），单位为us，具有较高的准确性与可对比性。
 
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/radixsort_rval.png)
  
 将表中数据绘制成折线图，如图所示。
  
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/radixsort_rval_line.png)
 
 从图表中可以看出，在n规模较小时，r的最佳取值出现在4-6区间，但当输入规模达到 时，r的最佳取值便收敛到8，不再浮动，总体而言，r最佳实验值为8，此时基数排序的耗时最短，效率最高。下表是理论值与实验值的对比。
 
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/rval_comp.png)
  
 由表可知，当n规模很大时，r的理论取值便不再适用于实际情况。其主要原因可能是受限于计算机高速cache的大小，当r值较大时，使得计数排序中k的取值增大，辅助数组的空间增大，一次对r位数的排列便需要占用较大的cache空间，当达到一定限度时，cache的空间不能满足一次计数排序所需要的辅助空间大小，排序的效率便开始下降。
 综上，这里选择r=8作为最终算法使用值。
@@ -99,13 +104,16 @@ Sort Algorithm Compare: Insertion Sort, Shell Sort, Quick Sort, Merge Sort and R
 ### 6.2  排序算法比较
 分别测试共计8种排序算法在不同输入规模下的排序耗时，计算平均数据整理如下表所示。表中同一输入数量级下使用的数据样本相同，每个r值对应的耗时值均是三次实验数据的平均值（见附件数据分析.xlsx），单位为us。这里插入排序只计算到 ， 运行时间过长，单方面拉高纵坐标轴，不利于折线图的观察，所以输入规模大于等于 之后不再考虑插入排序。
 
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/timecost.png)
  
 将上表数据绘制成折线图，如图所示。
+
+ ![image](https://github.com/chenwhql/SortCompare/blob/master/images/sort_compare.png)
 
 分析数据，可以总结出以下观点：
 （1） n较小时（ 规模以下），插入排序性能最好，希尔排序（sedgwick步长序列与ciura步长序列）也有很好的表现。
 （2） n到达 规模以上时，插入排序的效果直线下降， 规模以上便不再适用，同时基数排序与快速排序的优势开始变得明显。
- 
+
 
 （3） 希尔排序选择4种不同的步长，当数据输入规模足够大时，效率差距明显，使用sedgwick序列与ciura序列的希尔排序算法耗时大约只有使用普通步长序列时的一半，实验证明 序列效率并没有比 序列高多少，甚至在数据规模较大时，表现更差。
 （4） 快速排序和归并排序虽然理论上有着相同的时间复杂度，相同的平均效率，但是实际来看，快速排序的效果要比归并排序好很多，关键在于归并排序空间复杂度较高，有较多的赋值操作，其cache命中率不如快速排序。
